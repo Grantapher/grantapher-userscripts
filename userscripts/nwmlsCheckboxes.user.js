@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         NWMLS Checkboxes
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Adds checkboxes to filter homes based on how the user marked them.
 // @author       grantapher
 // @match        https://www.matrix.nwmls.com/Matrix/Public/Portal.aspx*
 // @grant        none
 // @require      https://gist.githubusercontent.com/BrockA/2625891/raw/9c97aa67ff9c5d56be34a55ad6c18a314e5eb548/waitForKeyElements.js
-// @updateURL    https://raw.githubusercontent.com/Grantapher/grantapher-userscripts/main/userscripts\nwmlsCheckboxes.user.js
+// @updateURL    https://raw.githubusercontent.com/Grantapher/grantapher-userscripts/main/userscripts/nwmlsCheckboxes.user.js
 // ==/UserScript==
 
 /* globals waitForKeyElements, $ */
