@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NWMLS Checkboxes
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  Adds checkboxes to filter homes based on how the user marked them.
 // @author       grantapher
 // @match        https://www.matrix.nwmls.com/Matrix/Public/Portal.aspx*
