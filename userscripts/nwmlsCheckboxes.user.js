@@ -5,7 +5,8 @@
 // @description  Adds checkboxes to filter homes based on how the user marked them.
 // @author       grantapher
 // @match        https://www.matrix.nwmls.com/Matrix/Public/Portal.aspx*
-// @grant        none
+// @grant        GM_setValue
+// @grant        GM_getValue
 // @require      https://gist.githubusercontent.com/BrockA/2625891/raw/9c97aa67ff9c5d56be34a55ad6c18a314e5eb548/waitForKeyElements.js
 // @updateURL    https://raw.githubusercontent.com/Grantapher/grantapher-userscripts/main/userscripts/nwmlsCheckboxes.user.js
 // ==/UserScript==
@@ -25,12 +26,17 @@
         '2': 'discard',
     }
 
-    var checkMap = {}
+    var checks = GM_getValue('checks', {
+        favorite: true,
+        possibility: true,
+        green: true,
+        discard: false,
+    })
 
     const updateListElem = (elem) => {
         const bucketIndex = elem.querySelector(".j-portalBucketSelector").getAttribute("data-currentbucket")
         const id = bucketIndexToId[bucketIndex]
-        const keep = checkMap[id]
+        const keep = checks[id]
 
         if (keep) {
             elem.style.removeProperty('display')
@@ -42,7 +48,7 @@
     const imgSrcRegex = /marker_(.*?)_sm/
     const updateMapElem = (elem) => {
         const id = imgSrcRegex.exec(elem.src)[1]
-        const keep = checkMap[id]
+        const keep = checks[id]
 
         if (keep) {
             elem.parentElement.removeAttribute("hidden")
@@ -71,25 +77,24 @@
         label.style['vertical-align'] = 'middle'
         div.appendChild(label)
 
-        addCheckbox(div, 'favorite', true, 'colors/marker_favorite_sm')
-        addCheckbox(div, 'possibility', true, 'colors/marker_possibility_sm')
-        addCheckbox(div, 'green', true, 'types/marker_singlefamily_sm', 'colors/marker_green_sm')
-        addCheckbox(div, 'discard', false, 'colors/marker_discard_sm')
+        addCheckbox(div, 'favorite', 'colors/marker_favorite_sm')
+        addCheckbox(div, 'possibility', 'colors/marker_possibility_sm')
+        addCheckbox(div, 'green', 'types/marker_singlefamily_sm', 'colors/marker_green_sm')
+        addCheckbox(div, 'discard', 'colors/marker_discard_sm')
 
         elem.prepend(div)
     }
 
-    const addCheckbox = (elem, id, checked, foreImgName, backImgName) => {
-        checkMap[id] = checked
-
+    const addCheckbox = (elem, id, foreImgName, backImgName) => {
         const checkbox = document.createElement('input')
         checkbox.type = 'checkbox'
-        checkbox.checked = checked
+        checkbox.checked = checks[id]
         checkbox.id = id
         checkbox.name = id
         checkbox.addEventListener('change', (event) => {
             const target = event.target
-            checkMap[target.id] = target.checked
+            checks[target.id] = target.checked
+            GM_setValue('checks', checks)
             update()
         });
         checkbox.style['vertical-align'] = 'middle'
