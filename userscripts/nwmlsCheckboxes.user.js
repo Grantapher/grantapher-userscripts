@@ -45,9 +45,14 @@
         }
     }
 
-    const imgSrcRegex = /marker_(.*?)_sm/
+    const imgSrcRegex = /marker_(.*?)_(sm|med)/
     const updateMapElem = (elem) => {
-        const id = imgSrcRegex.exec(elem.src)[1]
+        const match = imgSrcRegex.exec(elem.src)
+        if(!match) {
+            return;
+        }
+
+        const id = match[1]
         const keep = checks[id]
 
         if (keep) {
